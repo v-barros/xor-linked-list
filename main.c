@@ -21,7 +21,7 @@
  *OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  *SOFTWARE.
  *
- *doublylinkedlist.c
+ *main.c
  *
  *  Created on: 2021-06-11
  *      Author: @v-barros
@@ -63,7 +63,7 @@ int main(void){
 	        	printListForwards(list);
 	        	break;
 	        case 4:
-	        	//insertLast(list, i);
+	        	printf("=>%d\n",insertLast(list, i));
 	        	break;
 	        case 5:
 	        	printf("\nnumToRemove => ");
@@ -73,7 +73,7 @@ int main(void){
 	        	//removeLastOf(linkedList, n);
 	        	break;
 	        case 6:
-	        	//printListBackwards(linkedList);
+	        	printListBackwards(list);
 	        	break;
 	        case 0:
 	        	break;
@@ -83,5 +83,5 @@ int main(void){
 	        i++;
 	    }while (op != 0);
 
-    return 1;
+    return 0;
 }

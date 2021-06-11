@@ -36,45 +36,59 @@ Node * newNode(int data);
 
 Node * xor(Node * a, Node * b);
 
-Node * newNode(int data){
-    Node * p = calloc(1,sizeof(List));
+Node *newNode(int data)
+{
+    Node *p = calloc(1, sizeof(List));
     assert(p);
-    p->data=data;
+    p->data = data;
     return p;
 }
 
-List * newList(){
-    List * ll = calloc(1,sizeof(List));
+List *newList()
+{
+    List *ll = calloc(1, sizeof(List));
     assert(ll);
     return ll;
 }
 
-Node * xor(Node * a, Node * b)
+Node * xor (Node * a, Node *b)
 {
-    uintptr_t ptr = (uintptr_t) a ^(uintptr_t) b;
-    return (Node*) ptr;
+    uintptr_t ptr = (uintptr_t)a ^ (uintptr_t)b;
+    return (Node *)ptr;
 }
 
-int insertFirst(List * list,int data)
+int insertFirst(List *list, int data)
 {
-    Node * new_node = newNode(data);
-    if(isEmpty(list))
+    Node *new_node = newNode(data);
+    if (isEmpty(list))
     {
-        list->tail=new_node;
+        list->tail = new_node;
     }
     else
     {
-        list->head->n_xor = xor(list->head->n_xor,new_node);
+        list->head->n_xor = xor(list->head->n_xor, new_node);
         new_node->n_xor = list->head;
     }
-    list->head=new_node;
+    list->head = new_node;
     list->size++;
     return list->head->data;
 }
 
 int insertLast(List * list ,int data)
 {
-    return 1;
+    Node *new_node = newNode(data);
+    if (isEmpty(list))
+    {
+        list->head = new_node;
+    }
+    else
+    {
+        list->tail->n_xor = xor(list->tail->n_xor, new_node);
+        new_node->n_xor = list->tail;
+    }
+    list->tail = new_node;
+    list->size++;
+    return list->tail->data;
 }
 
 int removeFirstOf(List * list,int data)
@@ -116,4 +130,23 @@ void printListForwards(List * list){
     printf("\n");
 }
 
-void printListBackwards(List * list){}
+void printListBackwards(List * list)
+{
+    printf("\n");
+    if(isEmpty(list))
+    {
+        printf("List is empty!\n");
+        return;
+    }
+    Node * current = list->tail;
+    Node * next = NULL;
+    Node * previous = NULL;
+    
+    do{
+        printf("%d ", current->data);
+        previous = xor(current->n_xor,next);
+        next = current;
+        current = previous;
+    }while(current);
+    printf("\n");
+}
