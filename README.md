@@ -54,5 +54,10 @@ Now that we're holding the previous address, from head, the only thing to do is 
 current->xored_pointer^previous, and the result of this is the pointer to the NEXT element;
 
 
-
-
+# Running this code
+    ```
+    git clone https://github.com/v-barros/xor-linked-list.git
+    cd xor-linked-list
+    make
+    ./main
+    ```
