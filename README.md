@@ -6,20 +6,25 @@ Compared to commom Doubly Linked List, the advantage of A XOR'ed Doubly Linked L
 This approach is possible because of XOR Bitwise operator(^).
 
 How an ordinary doubly linked list node looks like:
+```C
 struct Node{
     struct Node *previous;
     struct Node *next;
     // data
 };
+```
 
 How a XOR doubly linked list node looks like:
+```C
 struct Node{
     struct Node * xor_ptr;
     // data
 };
+```
 
 # XOR Truth Table:
 A | B | A ^ B
+--|---|-------
 1 | 0 |   1
 1 | 1 |   0
 0 | 0 |   0
