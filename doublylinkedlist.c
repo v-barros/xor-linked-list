@@ -38,7 +38,9 @@ Node * xor(Node * a, Node * b);
 
 int findFirstOf(Node **node,Node ** previous, Node ** next,int data);
 
-Node * findLastOf(Node *node,Node ** previous, Node ** next,int data);
+int findLastOf(Node **node,Node ** previous, Node ** next,int data);
+
+void basic_remove(Node **current, Node ** previous,Node **next,List *list);
 
 Node *newNode(int data)
 {
@@ -61,7 +63,7 @@ Node * xor (Node * a, Node *b)
     return (Node *)ptr;
 }
 
-int insertFirst(List *list, int data)
+int insertFront(List *list, int data)
 {
     Node *new_node = newNode(data);
     if (isEmpty(list))
@@ -78,7 +80,7 @@ int insertFirst(List *list, int data)
     return list->head->data;
 }
 
-int insertLast(List * list ,int data)
+int insertBack(List *list, int data)
 {
     Node *new_node = newNode(data);
     if (isEmpty(list))
@@ -95,110 +97,148 @@ int insertLast(List * list ,int data)
     return list->tail->data;
 }
 
-int removeFirstOf(List * list,int numToDelete)
+int removeFirstOf(List *list, int numToDelete)
 {
-    if(isEmpty(list))
-        return 0;
+    if (isEmpty(list))
+        return INT32_MIN;
 
-    Node * current = list->head;
-    Node * next = NULL;
-    Node * previous = NULL;
-    if(findFirstOf(&current,&previous,&next,numToDelete))
+    Node *current = list->head;
+    Node *next = NULL;
+    Node *previous = NULL;
+    if (findFirstOf(&current, &previous, &next, numToDelete))
     {
-        //printf("\nprevious %d current %d next %d\n",previous->data,current->data,next->data);
         list->size--;
-        if(isEmpty(list))
-        {
-            list->head=NULL;
-            list->tail=NULL;
-        }else if(list->head==current)
-        {
-            next->n_xor=xor(next->n_xor,current);
-            list->head = next;
-        }else if(list->tail==current)
-        {
-            previous->n_xor=xor(previous->n_xor,current);
-            list->tail=previous;
-        }else
-        {
-            previous->n_xor = xor(xor(previous->n_xor,current),next);
-            next->n_xor = xor(xor(next->n_xor,current),previous);
-        }
-      //  printf("\nprevious %d current %d next %d\n",previous->data,current->data,next->data);
+        basic_remove(&current, &previous, &next, list);
         free(current);
-        return 1;
+        return numToDelete;
     }
-    return 0;
+    return INT32_MIN;
 }
 
-int findFirstOf(Node **node,Node ** previous, Node ** next,int data)
+int findFirstOf(Node **node, Node **previous, Node **next, int data)
 {
-    do{
-        //printf("data: %d\n",(*node)->data);
-        if(!((*node)->data^data))//
+    do
+    {
+        if (!((*node)->data ^ data)) //
         {
-            *next = xor((*node)->n_xor,*previous);
-          //printf("data: %d %d\n",(*node)->data,data);
+            *next = xor((*node)->n_xor, *previous);
             return 1;
-        }   
-        *next = xor((*node)->n_xor,*previous);
+        }
+        *next = xor((*node)->n_xor, *previous);
         *previous = *node;
         *node = *next;
-    }while(node);
+    } while (*node);
     return 0;
 }
 
-int removeLastOf(List * list,int data)
+void basic_remove(Node **current, Node **previous, Node **next, List *list)
 {
-    return 1;
+    if (isEmpty(list))
+    {
+        list->head = NULL;
+        list->tail = NULL;
+    }
+    else if (list->head == *current)
+    {
+        (*next)->n_xor = xor((*next)->n_xor, *current);
+        list->head = *next;
+    }
+    else if (list->tail == *current)
+    {
+        (*previous)->n_xor = xor((*previous)->n_xor, *current);
+        list->tail = *previous;
+    }
+    else
+    {
+        (*previous)->n_xor = xor(xor((*previous)->n_xor, *current), *next);
+        (*next)->n_xor = xor(xor((*next)->n_xor, *current), *previous);
+    }
 }
 
-int size(List * list)
+int removeLastOf(List * list,int numToDelete)
+{
+    if(isEmpty(list))
+        return INT32_MIN;
+
+    Node * current = list->tail;
+    Node * next = NULL;
+    Node * previous = NULL;
+    if(findLastOf(&current,&previous,&next,numToDelete))
+    {
+        list->size--;
+        basic_remove(&current,&previous,&next,list);
+        free(current);
+        return numToDelete;
+    }
+    return INT32_MIN;
+}
+
+int findLastOf(Node **node, Node **previous, Node **next, int data)
+{
+    do
+    {
+        if (!((*node)->data ^ data))
+        {
+            *previous = xor((*node)->n_xor, *next);
+            return 1;
+        }
+        *previous = xor((*node)->n_xor, *next);
+        *next = *node;
+        *node = *previous;
+    } while (*node);
+    return 0;
+}
+
+int size(List *list)
 {
     return list->size;
 }
 
-int isEmpty(List * list)
+int isEmpty(List *list)
 {
     return !list->size;
 }
-void printListForwards(List * list){
+
+void printListForwards(List *list)
+{
     printf("\n");
-    if(isEmpty(list))
+    if (isEmpty(list))
     {
         printf("List is empty!\n");
         return;
     }
-    Node * current = list->head;
-    Node * next = NULL;
-    Node * previous = NULL;
-    
-    do{
+    Node *current = list->head;
+    Node *next = NULL;
+    Node *previous = NULL;
+
+    do
+    {
         printf("%d ", current->data);
-        next = xor(current->n_xor,previous);
+        next = xor(current->n_xor, previous);
         previous = current;
         current = next;
-    }while(current);
+    } while (current);
     printf("\n");
 }
 
-void printListBackwards(List * list)
+void printListBackwards(List *list)
 {
     printf("\n");
-    if(isEmpty(list))
+    if (isEmpty(list))
     {
         printf("List is empty!\n");
         return;
     }
-    Node * current = list->tail;
-    Node * next = NULL;
-    Node * previous = NULL;
-    
-    do{
+    Node *current = list->tail;
+    Node *next = NULL;
+    Node *previous = NULL;
+
+    do
+    {
         printf("%d ", current->data);
-        previous = xor(current->n_xor,next);
+        previous = xor(current->n_xor, next);
         next = current;
         current = previous;
-    }while(current);
+    } while (current);
     printf("\n");
 }

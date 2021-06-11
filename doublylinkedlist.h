@@ -38,8 +38,8 @@
 #include <stdint.h>
 
 struct Node{
-    int data;
     struct Node * n_xor;
+    int data;
 };
 typedef struct Node Node;
 
@@ -54,10 +54,10 @@ typedef struct List List;
 List * newList();
 
 /*  – Insert an element at the beginning of the list.*/
-int insertFirst(List * list,int numToAdd);
+int insertFront(List * list,int numToAdd);
 
 /*  – Insert an element at the end of the list.*/
-int insertLast(List * list ,int numToAdd);
+int insertBack(List * list ,int numToAdd);
 
 /* – Remove the first occurrence of any element from a non-empty list.*/
 int removeFirstOf(List * list,int numToDelete) ;

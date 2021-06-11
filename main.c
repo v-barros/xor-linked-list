@@ -30,13 +30,14 @@
  * */
 
 #include "doublylinkedlist.h"
+#include <stdio.h>
 
 int main(void){
     List * list = newList();
     int i=0,n;
     int op;
     do {
-		printf("\n\nTesting List\n");
+		printf("\nTesting List\n");
 	    printf("<1> Insert in First position\n\n");
 	    printf("<2> Remove first occurrence\n\n");
 	    printf("<3> Print List in forward manner\n\n");
@@ -50,27 +51,27 @@ int main(void){
 	    while(getchar()!='\n');
 	    switch (op) {
 	    	case 1:
-	    		printf("=>%d\n",insertFirst(list, i));
+	    		printf("=>%d\n",insertFront(list, i));
 	        	break;
 	        case 2:
 	        	printf("\nnumToRemove => ");
 	        	scanf("%d", &n);
 	        	printf("\n");
 	        	while(getchar()!='\n');
-	        	removeFirstOf(list, n);
+	        	printf("=>%d\n",removeFirstOf(list, n));
 	        	break;
 	        case 3:
 	        	printListForwards(list);
 	        	break;
 	        case 4:
-	        	printf("=>%d\n",insertLast(list, i));
+	        	printf("=>%d\n",insertBack(list, i));
 	        	break;
 	        case 5:
 	        	printf("\nnumToRemove => ");
 	        	scanf("%d", &n);
 	        	printf("\n");
-	        	//while(getchar()!='\n');
-	        	//removeLastOf(linkedList, n);
+	        	while(getchar()!='\n');
+	        	printf("=>%d\n",removeLastOf(list, n));
 	        	break;
 	        case 6:
 	        	printListBackwards(list);
