@@ -56,8 +56,8 @@ int main(void){
 	        	printf("\nnumToRemove => ");
 	        	scanf("%d", &n);
 	        	printf("\n");
-	        	//while(getchar()!='\n');
-	        	//removeFirstOf(linkedList, n);
+	        	while(getchar()!='\n');
+	        	removeFirstOf(list, n);
 	        	break;
 	        case 3:
 	        	printListForwards(list);

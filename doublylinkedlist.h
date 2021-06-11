@@ -54,16 +54,16 @@ typedef struct List List;
 List * newList();
 
 /*  – Insert an element at the beginning of the list.*/
-int insertFirst(List * list,int data);
+int insertFirst(List * list,int numToAdd);
 
 /*  – Insert an element at the end of the list.*/
-int insertLast(List * list ,int data);
+int insertLast(List * list ,int numToAdd);
 
 /* – Remove the first occurrence of any element from a non-empty list.*/
-int removeFirstOf(List * list,int data) ;
+int removeFirstOf(List * list,int numToDelete) ;
 
 /* – Remove the last occurrence of any element from a non-empty list.*/
-int removeLastOf(List * list,int data);
+int removeLastOf(List * list,int numToDelete);
 
 /* – Return the number of elements in the list. */
 int size(List * list);

@@ -36,6 +36,10 @@ Node * newNode(int data);
 
 Node * xor(Node * a, Node * b);
 
+int findFirstOf(Node **node,Node ** previous, Node ** next,int data);
+
+Node * findLastOf(Node *node,Node ** previous, Node ** next,int data);
+
 Node *newNode(int data)
 {
     Node *p = calloc(1, sizeof(List));
@@ -91,9 +95,57 @@ int insertLast(List * list ,int data)
     return list->tail->data;
 }
 
-int removeFirstOf(List * list,int data)
+int removeFirstOf(List * list,int numToDelete)
 {
-    return 1;
+    if(isEmpty(list))
+        return 0;
+
+    Node * current = list->head;
+    Node * next = NULL;
+    Node * previous = NULL;
+    if(findFirstOf(&current,&previous,&next,numToDelete))
+    {
+        //printf("\nprevious %d current %d next %d\n",previous->data,current->data,next->data);
+        list->size--;
+        if(isEmpty(list))
+        {
+            list->head=NULL;
+            list->tail=NULL;
+        }else if(list->head==current)
+        {
+            next->n_xor=xor(next->n_xor,current);
+            list->head = next;
+        }else if(list->tail==current)
+        {
+            previous->n_xor=xor(previous->n_xor,current);
+            list->tail=previous;
+        }else
+        {
+            previous->n_xor = xor(xor(previous->n_xor,current),next);
+            next->n_xor = xor(xor(next->n_xor,current),previous);
+        }
+      //  printf("\nprevious %d current %d next %d\n",previous->data,current->data,next->data);
+        free(current);
+        return 1;
+    }
+    return 0;
+}
+
+int findFirstOf(Node **node,Node ** previous, Node ** next,int data)
+{
+    do{
+        //printf("data: %d\n",(*node)->data);
+        if(!((*node)->data^data))//
+        {
+            *next = xor((*node)->n_xor,*previous);
+          //printf("data: %d %d\n",(*node)->data,data);
+            return 1;
+        }   
+        *next = xor((*node)->n_xor,*previous);
+        *previous = *node;
+        *node = *next;
+    }while(node);
+    return 0;
 }
 
 int removeLastOf(List * list,int data)
