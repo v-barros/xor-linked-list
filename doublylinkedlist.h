@@ -32,5 +32,49 @@
 
 #ifndef _DOUBLY_LINKED_LIST_
 #define _DOUBLY_LINKED_LIST_
+#include <stdlib.h>
+#include <stdio.h>
+#include <assert.h>
+#include <stdint.h>
 
-#endif
+struct Node{
+    int data;
+    struct Node * n_xor;
+};
+typedef struct Node Node;
+
+struct List{
+    struct Node * head;
+    struct Node * tail;
+    int size;
+};
+
+typedef struct List List;
+
+List * newList();
+
+/*  – Insert an element at the beginning of the list.*/
+int insertFirst(List * list,int data);
+
+/*  – Insert an element at the end of the list.*/
+int insertLast(List * list ,int data);
+
+/* – Remove the first occurrence of any element from a non-empty list.*/
+int removeFirstOf(List * list,int data) ;
+
+/* – Remove the last occurrence of any element from a non-empty list.*/
+int removeLastOf(List * list,int data);
+
+/* – Return the number of elements in the list. */
+int size(List * list);
+
+/* – Return true if the 1 is empty, otherwise return 0.*/
+int isEmpty(List * list);
+
+/* - Traverse the list and print the elements  */
+void printListForwards(List * list);
+
+/* - Traverse the list in backward manner and print the elements  */
+void printListBackwards(List * list);
+
+#endif /*_DOUBLY_LINKED_LIST_*/
